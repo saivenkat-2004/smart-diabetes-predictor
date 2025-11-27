@@ -20,7 +20,7 @@ scaler = joblib.load("scaler.pkl")
 # ---------------------------- LOAD DATA ----------------------------
 @st.cache_data
 def load_data():
-    df = pd.read_csv("data.csv")
+    df = pd.read_csv("diabetes1.csv")
     return df
 
 df = load_data()
@@ -158,3 +158,4 @@ elif page == "ℹ About":
     """)
 
     st.info("This app is for educational purposes and not a medical diagnosis tool.")
+
