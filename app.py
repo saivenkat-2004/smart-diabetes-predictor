@@ -30,7 +30,7 @@ st.sidebar.title("📌 Navigation")
 page = st.sidebar.radio("Go to:", ["🏠 Home", "📊 EDA", "🔮 Prediction", "ℹ About"])
 
 st.sidebar.markdown("---")
-st.sidebar.write(""Created by **Banu Prakash ,Sai venkat**")
+st.sidebar.write("Created by **Banu Prakash ,Sai venkat**")
 
 # ---------------------------- HOME PAGE ----------------------------
 if page == "🏠 Home":
@@ -179,6 +179,7 @@ elif page == "ℹ About":
     """)
 
     st.info("This app is for educational purposes and not a medical diagnosis tool.")
+
 
 
 
