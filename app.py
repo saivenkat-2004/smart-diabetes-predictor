@@ -129,15 +129,35 @@ elif page == "🔮 Prediction":
         prediction = (model.predict(scaled_data) > 0.5).astype("int32")[0][0]
 
         if prediction == 1:
-            st.error("⚠ **Prediction: Diabetes Detected**")
+            st.error(" 🔴 **Prediction: Diabetes Detected**")
         else:
             st.success("✅ **Prediction: No Diabetes**")
 
 # ---------------------------- ABOUT PAGE ----------------------------
 elif page == "ℹ About":
     st.title("ℹ About This Project")
-    st.write("""
-    This diabetes prediction system was developed using:
+    st.markdown(""" ## 🩺 Diabetes Prediction Using Artificial Neural Networks (ANN)
+
+    This project is an end-to-end **Machine Learning + Deep Learning** system  
+    built to predict the likelihood of diabetes using health and lifestyle factors.
+
+    ### 🎯 Project Objectives
+    - Build an **ANN-based binary classification model** to predict diabetes.
+    - Analyze health risk factors using **Exploratory Data Analysis (EDA)**.
+    - Handle data imbalance using **SMOTE**.
+    - Apply **Standard Scaling** for improved model convergence.
+    - Deploy the trained ANN model using **Streamlit Web Application**.
+
+    ### 📊 Dataset Information
+    - Source: BRFSS 2015 Survey (CDC)
+    - Original target classes:
+        - 0 → No Diabetes  
+        - 1 → Prediabetes  
+        - 2 → Diabetes  
+    - Modified for binary classification:
+        - Removed class 1  
+        - Converted class 2 → 1 (Diabetes)  
+    - Final: **0 = No Diabetes, 1 = Diabetes**
 
     ### 🔧 Technologies Used:
     - Streamlit
@@ -154,8 +174,10 @@ elif page == "ℹ About":
     - Accuracy: **85%**
 
     ### 👨‍💻 Developer:
-    - Your Name  
+    - Sai venkat
+    - Banu Prakash
     """)
 
     st.info("This app is for educational purposes and not a medical diagnosis tool.")
+
 
