@@ -306,16 +306,6 @@ if predict_click:
     except Exception as e:
         st.error(f"Prediction failed: {e}")
 
-# ---------------------------
-# Footer
-# ---------------------------
-st.markdown(
-    """
-    <div style='text-align:center; margin-top:18px; color:#6b7280'>
-    Built with ❤️ | Premium UI | Machine Learning Diabetes Risk System
-    </div>
-    """,
-    unsafe_allow_html=True,
 # =======================================================================================
 #                                      ABOUT PAGE
 # =======================================================================================
@@ -340,5 +330,6 @@ elif page == "ℹ About":
 
     This app is created for educational purposes.
     """)
+
 
 
