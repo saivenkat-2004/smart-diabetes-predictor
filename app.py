@@ -41,7 +41,7 @@ scaler = joblib.load("scaler.pkl")
 # ---------------------------- LOAD DATA ----------------------------
 @st.cache_data
 def load_data():
-    return pd.read_csv("data.csv")
+    return pd.read_csv("diabetes1.csv")
 
 df = load_data()
 
@@ -161,3 +161,4 @@ elif page == "ℹ About":
 
     This app is for **educational purposes only**.
     """)
+
