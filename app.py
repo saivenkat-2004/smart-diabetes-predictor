@@ -77,8 +77,11 @@ if page == "🏠 Home":
     Welcome to the **Diabetes Prediction App**.  
     This application uses a trained **Artificial Neural Network (ANN)**  
     to predict diabetes based on health and lifestyle inputs.
-    """)
-
+    ### 🔍 Features Inside the App: 
+    - 📊 **Interactive EDA** 
+    - 🔮 **Diabetes Prediction** 
+    - 🤖 **Deployed ANN Model
+    ** Navigate using the sidebar on the left. """)
     st.image("https://cdn-icons-png.flaticon.com/512/2966/2966481.png", width=220)
 
 # =======================================================================================
@@ -158,8 +161,9 @@ elif page == "ℹ About":
     - Accuracy: **85%**
 
     ### 👨‍💻 Developers  
-    **Banu Prakash**  
-    **Sai Venkat**
+    **Sai Venkat**  
+    **Banu Prakash**
 
     This app is created for educational purposes.
     """)
+
