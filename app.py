@@ -13,7 +13,22 @@ st.set_page_config(
     layout="wide"
 )
 
-# ---------------------------- LIGHT WATERMARK BACKGROUND ----------------------------
+# ---------------------------- FORCE LIGHT THEME ----------------------------
+st.markdown("""
+    <style>
+        /* FORCE LIGHT MODE */
+        :root {
+            --text-color: #000 !important;
+            --background-color: #ffffff !important;
+            --primary-color: #005fea !important;
+        }
+        body {
+            color: black !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+# ---------------------------- REAL WATERMARK BACKGROUND ----------------------------
 def set_bg():
     st.markdown("""
         <style>
@@ -22,42 +37,53 @@ def set_bg():
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            opacity: 1;
+            position: relative;
         }
 
-        /* Create a soft white overlay to lighten the image */
+        /* Soft white overlay for watermark look */
         .stApp::before {
             content: "";
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.75); /* MAIN LIGHT WATERMARK EFFECT */
-            backdrop-filter: blur(1px);
+            inset: 0;
+            background: rgba(255, 255, 255, 0.78);  /* LIGHTER WATERMARK EFFECT */
+            backdrop-filter: blur(2px);
             z-index: -1;
         }
 
-        /* Main content container styling */
+        /* Clean White Container */
         .block-container {
-            background: rgba(255, 255, 255, 0.88);
+            background: rgba(255, 255, 255, 0.95);
             padding: 2rem 3rem;
-            border-radius: 15px;
-            margin-top: 30px;
-            box-shadow: 0px 4px 20px rgba(0,0,0,0.1);
+            border-radius: 18px;
+            box-shadow: 0px 4px 20px rgba(0,0,0,0.08);
+            margin-top: 30px !important;
         }
 
-        /* Remove scrollbars */
-        ::-webkit-scrollbar {
-            width: 0px;
+        /* Make headings darker for clarity */
+        h1, h2, h3, h4 {
+            color: #222 !important;
+            font-weight: 700 !important;
         }
-        html, body {
-            overflow: hidden !important;
+
+        p, label {
+            color: #333 !important;
+            font-size: 1rem !important;
         }
-        </style>
+
+        /* Remove Scrollbars */
+        ::-webkit-scrollbar { width: 0px; }
+        html, body { overflow: hidden !important; }
+
+        /* Sidebar Light Style */
+        section[data-testid="stSidebar"] {
+            background-color: #f7f7f7 !important;
+        }
+    </style>
     """, unsafe_allow_html=True)
 
 set_bg()
+
+
 
 # ---------------------------- LOAD MODEL ----------------------------
 model = tf.keras.models.load_model("diabetes_ann_model.h5")
@@ -163,4 +189,5 @@ elif page == "ℹ About":
 
     **This app is for educational purposes only**.
     """)
+
 
