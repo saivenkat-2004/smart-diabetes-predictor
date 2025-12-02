@@ -13,20 +13,6 @@ st.set_page_config(
     layout="wide"
 )
 
-# ---------------------------- FORCE LIGHT THEME ----------------------------
-st.markdown("""
-    <style>
-        /* FORCE LIGHT MODE */
-        :root {
-            --text-color: #000 !important;
-            --background-color: #ffffff !important;
-            --primary-color: #005fea !important;
-        }
-        body {
-            color: black !important;
-        }
-    </style>
-""", unsafe_allow_html=True)
 
 # ---------------------------- REAL WATERMARK BACKGROUND ----------------------------
 def set_bg():
@@ -189,5 +175,6 @@ elif page == "ℹ About":
 
     **This app is for educational purposes only**.
     """)
+
 
 
