@@ -83,7 +83,7 @@ if page == "🏠 Home":
     ### 🔍 Features Inside the App: - 
     - 🔮 **Diabetes Prediction** - 
     - 🤖 **Deployed ANN Model**-
-    ** Navigate using the sidebar on the left.
+    - ** Navigate using the sidebar on the left. -
     """)
 
     st.image("https://cdn-icons-png.flaticon.com/512/2966/2966481.png", width=220)
@@ -95,32 +95,56 @@ elif page == "🔮 Prediction":
 
     st.write("Fill in the following details:")
 
-    col1, col2 = st.columns(2)
+    ccol1, col2 = st.columns(2)
 
-    with col1:
-        high_bp = st.selectbox("High Blood Pressure", [0, 1])
-        high_chol = st.selectbox("High Cholesterol", [0, 1])
-        chol_check = st.selectbox("Cholesterol Check in 5 Years", [0, 1])
-        bmi = st.number_input("BMI", 10.0, 60.0, 25.0)
-        smoker = st.selectbox("Smoker", [0, 1])
-        stroke = st.selectbox("Stroke", [0, 1])
-        heart_disease = st.selectbox("Heart Disease", [0, 1])
-        phys_act = st.selectbox("Physical Activity", [0, 1])
-        fruits = st.selectbox("Fruit Intake", [0, 1])
+with col1:
+    high_bp = st.selectbox("High Blood Pressure", [0, 1])
+    high_chol = st.selectbox("High Cholesterol", [0, 1])
+    chol_check = st.selectbox("Cholesterol Check in 5 Years", [0, 1])
+    bmi = st.number_input("BMI", 10.0, 60.0, 25.0)
+    smoker = st.selectbox("Smoker", [0, 1])
+    stroke = st.selectbox("Stroke", [0, 1])
+    heart_disease = st.selectbox("Heart Disease", [0, 1])
+    phys_act = st.selectbox("Physical Activity", [0, 1])
+    fruits = st.selectbox("Fruit Intake", [0, 1])
 
-    with col2:
-        veggies = st.selectbox("Vegetable Intake", [0, 1])
-        heavy_alcohol = st.selectbox("Heavy Alcohol", [0, 1])
-        healthcare = st.selectbox("Healthcare Coverage", [0, 1])
-        no_doctor_cost = st.selectbox("Can't Afford Doctor", [0, 1])
-        gen_health = st.selectbox("General Health (1=Excellent, 5=Poor)", 1, 5, 3)
-        mental_health = st.selectbox("Poor Mental Health Days", 0, 30, 5)
-        physical_health = st.selectbox("Poor Physical Health Days", 0, 30, 5)
-        diff_walk = st.selectbox("Difficulty Walking", [0, 1])
-        sex = st.selectbox("Sex (0=Female, 1=Male)", [0, 1])
-        age = st.selectbox("Age Category (1–13)", 1, 13, 5)
-        education = st.selectbox("Education (1–6)", 1, 6, 4)
-        income = st.selectbox("Income (1–8)", 1, 8, 4)
+with col2:
+    veggies = st.selectbox("Vegetable Intake", [0, 1])
+    heavy_alcohol = st.selectbox("Heavy Alcohol", [0, 1])
+    healthcare = st.selectbox("Healthcare Coverage", [0, 1])
+    no_doctor_cost = st.selectbox("Can't Afford Doctor", [0, 1])
+
+    # -------- SELECTBOXES (NO SLIDERS) --------
+    gen_health = st.selectbox("General Health (1=Excellent, 5=Poor)", [1, 2, 3, 4, 5])
+
+    mental_health = st.selectbox(
+        "Poor Mental Health Days (0–30)",
+        list(range(0, 31))
+    )
+
+    physical_health = st.selectbox(
+        "Poor Physical Health Days (0–30)",
+        list(range(0, 31))
+    )
+
+    diff_walk = st.selectbox("Difficulty Walking", [0, 1])
+    sex = st.selectbox("Sex (0=Female, 1=Male)", [0, 1])
+
+    age = st.selectbox(
+        "Age Category (1–13)",
+        list(range(1, 14))
+    )
+
+    education = st.selectbox(
+        "Education Level (1–6)",
+        list(range(1, 7))
+    )
+
+    income = st.selectbox(
+        "Income Level (1–8)",
+        list(range(1, 9))
+    )
+
 
     user_data = np.array([
         high_bp, high_chol, chol_check, bmi, smoker, stroke, heart_disease,
@@ -160,6 +184,7 @@ elif page == "ℹ About":
 
     This app is for educational use only.
     """)
+
 
 
 
