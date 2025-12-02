@@ -72,10 +72,12 @@ if page == "🏠 Home":
     st.title("🩺 Diabetes Prediction App")
 
     st.write("""
-    Welcome to the **Diabetes Prediction App**.
-
-    This application uses a trained **Artificial Neural Network (ANN)**  
-    to predict diabetes based on health and lifestyle data.
+    Welcome to the **Diabetes Prediction App**. This application uses a trained **Artificial Neural Network (ANN)
+    ** model to predict whether an individual is likely to have diabetes based on their health and lifestyle patterns.
+    ### 🔍 Features Inside the App: - 
+    - 🔮 **Diabetes Prediction** - 
+    - 🤖 **Deployed ANN Model**-
+    ** Navigate using the sidebar on the left.
     """)
 
     st.image("https://cdn-icons-png.flaticon.com/512/2966/2966481.png", width=220)
@@ -152,4 +154,5 @@ elif page == "ℹ About":
 
     This app is for educational use only.
     """)
+
 
