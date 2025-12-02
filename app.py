@@ -1,5 +1,4 @@
 import streamlit as st
-import pandas as pd
 import numpy as np
 import tensorflow as tf
 import joblib
@@ -15,46 +14,38 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-        /* Dark background */
+        /* Light grey background */
         .stApp {
-            background-color: #0e0e0e !important;
+            background-color: #f2f2f2 !important;
         }
 
-        /* Main content card */
+        /* Main content box */
         .block-container {
-            background: #1c1c1c !important;
+            background: white;
             padding: 2rem 3rem;
             border-radius: 16px;
-            box-shadow: 0px 4px 15px rgba(255,255,255,0.06);
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
             margin-top: 30px;
         }
 
         /* Headings */
         h1, h2, h3, h4 {
-            color: #ffffff !important;
+            color: #222 !important;
+            font-weight: 700;
         }
 
-        /* Normal text */
+        /* Text */
         p, label, span {
-            color: #dcdcdc !important;
+            color: #333 !important;
+            font-size: 1rem !important;
         }
 
         /* Sidebar */
         section[data-testid="stSidebar"] {
-            background-color: #1a1a1a !important;
+            background-color: #e8e8e8 !important;
         }
 
-        /* Sidebar text */
-        .css-1d391kg, .css-qri22k {
-            color: #ffffff !important;
-        }
-
-        /* Inputs */
-        .stSelectbox, .stNumberInput, .stSlider {
-            color: white !important;
-        }
-
-        /* Remove scrollbars */
+        /* Remove scrollbar */
         ::-webkit-scrollbar { width: 0px; }
     </style>
     """,
@@ -72,80 +63,62 @@ page = st.sidebar.radio("Go to:", ["🏠 Home", "🔮 Prediction", "ℹ About"])
 st.sidebar.markdown("---")
 st.sidebar.write("Created by **Banu Prakash – Sai Venkat**")
 
-
-# ============================ HOME PAGE =============================
+# =======================================================================================
+#                                        HOME PAGE
+# =======================================================================================
 if page == "🏠 Home":
     st.title("🩺 Diabetes Prediction App")
 
     st.write("""
-    Welcome to the **Diabetes Prediction App**. This application uses a trained **Artificial Neural Network (ANN)
-    ** model to predict whether an individual is likely to have diabetes based on their health and lifestyle patterns.
-    ### 🔍 Features Inside the App: - 
-    - 🔮 **Diabetes Prediction** - 
-    - 🤖 **Deployed ANN Model**-
-    - ** Navigate using the sidebar on the left. -
+    Welcome to the **Diabetes Prediction App**.  
+    This application uses a trained **Artificial Neural Network (ANN)**  
+    to predict diabetes based on health and lifestyle inputs.
     """)
 
     st.image("https://cdn-icons-png.flaticon.com/512/2966/2966481.png", width=220)
 
-
-# ============================ PREDICTION PAGE =============================
+# =======================================================================================
+#                                   PREDICTION PAGE
+# =======================================================================================
 elif page == "🔮 Prediction":
     st.title("🔮 Diabetes Prediction")
 
-    st.write("Fill in the following details:")
+    st.write("Fill in your details below:")
 
-    ccol1, col2 = st.columns(2)
+    col1, col2 = st.columns(2)
 
-with col1:
-    high_bp = st.selectbox("High Blood Pressure", [0, 1])
-    high_chol = st.selectbox("High Cholesterol", [0, 1])
-    chol_check = st.selectbox("Cholesterol Check in 5 Years", [0, 1])
-    bmi = st.number_input("BMI", 10.0, 60.0, 25.0)
-    smoker = st.selectbox("Smoker", [0, 1])
-    stroke = st.selectbox("Stroke", [0, 1])
-    heart_disease = st.selectbox("Heart Disease", [0, 1])
-    phys_act = st.selectbox("Physical Activity", [0, 1])
-    fruits = st.selectbox("Fruit Intake", [0, 1])
+    # ----------------------- LEFT COLUMN -----------------------
+    with col1:
+        high_bp = st.selectbox("High Blood Pressure", [0, 1])
+        high_chol = st.selectbox("High Cholesterol", [0, 1])
+        chol_check = st.selectbox("Cholesterol Check in Last 5 Years", [0, 1])
+        bmi = st.number_input("BMI", 10.0, 60.0, 25.0)
+        smoker = st.selectbox("Smoker (100+ cigarettes lifetime)", [0, 1])
+        stroke = st.selectbox("Ever Had a Stroke?", [0, 1])
+        heart_disease = st.selectbox("Heart Disease?", [0, 1])
+        phys_act = st.selectbox("Physical Activity", [0, 1])
+        fruits = st.selectbox("Daily Fruit Intake", [0, 1])
 
-with col2:
-    veggies = st.selectbox("Vegetable Intake", [0, 1])
-    heavy_alcohol = st.selectbox("Heavy Alcohol", [0, 1])
-    healthcare = st.selectbox("Healthcare Coverage", [0, 1])
-    no_doctor_cost = st.selectbox("Can't Afford Doctor", [0, 1])
+    # ----------------------- RIGHT COLUMN -----------------------
+    with col2:
+        veggies = st.selectbox("Daily Vegetable Intake", [0, 1])
+        heavy_alcohol = st.selectbox("Heavy Alcohol Consumption", [0, 1])
+        healthcare = st.selectbox("Any Healthcare Coverage?", [0, 1])
+        no_doctor_cost = st.selectbox("Couldn't Afford Doctor Visit", [0, 1])
 
-    # -------- SELECTBOXES (NO SLIDERS) --------
-    gen_health = st.selectbox("General Health (1=Excellent, 5=Poor)", [1, 2, 3, 4, 5])
+        gen_health = st.selectbox("General Health (1=Excellent, 5=Poor)", [1, 2, 3, 4, 5])
 
-    mental_health = st.selectbox(
-        "Poor Mental Health Days (0–30)",
-        list(range(0, 31))
-    )
+        mental_health = st.selectbox("Poor Mental Health Days (0–30)", list(range(0, 31)))
+        physical_health = st.selectbox("Poor Physical Health Days (0–30)", list(range(0, 31)))
 
-    physical_health = st.selectbox(
-        "Poor Physical Health Days (0–30)",
-        list(range(0, 31))
-    )
+        diff_walk = st.selectbox("Difficulty Walking", [0, 1])
+        sex = st.selectbox("Sex (0=Female, 1=Male)", [0, 1])
 
-    diff_walk = st.selectbox("Difficulty Walking", [0, 1])
-    sex = st.selectbox("Sex (0=Female, 1=Male)", [0, 1])
+        age = st.selectbox("Age Category (1–13)", list(range(1, 14)))
+        education = st.selectbox("Education Level (1–6)", list(range(1, 7)))
+        income = st.selectbox("Income Level (1–8)", list(range(1, 9)))
 
-    age = st.selectbox(
-        "Age Category (1–13)",
-        list(range(1, 14))
-    )
-
-    education = st.selectbox(
-        "Education Level (1–6)",
-        list(range(1, 7))
-    )
-
-    income = st.selectbox(
-        "Income Level (1–8)",
-        list(range(1, 9))
-    )
-
-
+    # ----------------------- MAKE INPUT ARRAY -----------------------
     user_data = np.array([
         high_bp, high_chol, chol_check, bmi, smoker, stroke, heart_disease,
         phys_act, fruits, veggies, heavy_alcohol, healthcare, no_doctor_cost,
@@ -153,17 +126,19 @@ with col2:
         education, income
     ]).reshape(1, -1)
 
+    # ----------------------- PREDICT BUTTON -----------------------
     if st.button("Predict"):
         scaled = scaler.transform(user_data)
         pred = (model.predict(scaled) > 0.5).astype(int)[0][0]
 
         if pred == 1:
-            st.error("⚠ **Prediction: Diabetes Detected**")
+            st.error("⚠ **Prediction: Diabetes Likely Detected**")
         else:
             st.success("✅ **Prediction: No Diabetes**")
 
-
-# ============================ ABOUT PAGE =============================
+# =======================================================================================
+#                                      ABOUT PAGE
+# =======================================================================================
 elif page == "ℹ About":
     st.title("ℹ About This Project")
 
@@ -172,19 +147,16 @@ elif page == "ℹ About":
     - Streamlit  
     - TensorFlow / Keras  
     - Scikit-learn  
-    - Pandas, NumPy  
+    - Pandas & NumPy  
 
     ### 🧠 Model  
     - Artificial Neural Network (ANN)  
+    - Binary Classification  
     - Accuracy: **85%**
 
     ### 👨‍💻 Developers  
-    **Banu Prakash**  
-    **Sai Venkat**
+    - **Banu Prakash**  
+    - **Sai Venkat**
 
-    This app is for educational use only.
+    This app is created for educational & learning purposes.
     """)
-
-
-
-
