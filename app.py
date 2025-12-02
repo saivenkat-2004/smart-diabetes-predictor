@@ -1,8 +1,6 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import seaborn as sns
-import matplotlib.pyplot as plt
 import tensorflow as tf
 import joblib
 
@@ -13,81 +11,60 @@ st.set_page_config(
     layout="wide"
 )
 
-
-# ---------------------------- REAL WATERMARK BACKGROUND ----------------------------
-def set_bg():
-    st.markdown("""
-        <style>
+# ---------------------------- CLEAN LIGHT GREY THEME ----------------------------
+st.markdown(
+    """
+    <style>
+        /* Light grey background */
         .stApp {
-            background-image: url("https://images.unsplash.com/photo-1581091012184-5c7b2baf8bff");
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            position: relative;
+            background-color: #f2f2f2 !important;
         }
 
-        /* Soft white overlay for watermark look */
-        .stApp::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: rgba(255, 255, 255, 0.78);  /* LIGHTER WATERMARK EFFECT */
-            backdrop-filter: blur(2px);
-            z-index: -1;
-        }
-
-        /* Clean White Container */
+        /* Main content box */
         .block-container {
-            background: rgba(255, 255, 255, 0.95);
+            background: white;
             padding: 2rem 3rem;
-            border-radius: 18px;
-            box-shadow: 0px 4px 20px rgba(0,0,0,0.08);
-            margin-top: 30px !important;
+            border-radius: 16px;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+            margin-top: 30px;
         }
 
-        /* Make headings darker for clarity */
+        /* Headings */
         h1, h2, h3, h4 {
             color: #222 !important;
-            font-weight: 700 !important;
+            font-weight: 700;
         }
 
-        p, label {
+        /* Labels & Text */
+        label, p, span {
             color: #333 !important;
             font-size: 1rem !important;
         }
 
-        /* Remove Scrollbars */
-        ::-webkit-scrollbar { width: 0px; }
-        html, body { overflow: hidden !important; }
-
-        /* Sidebar Light Style */
+        /* Sidebar styling */
         section[data-testid="stSidebar"] {
-            background-color: #f7f7f7 !important;
+            background-color: #e8e8e8 !important;
+        }
+
+        /* Remove ugly scrollbar */
+        ::-webkit-scrollbar {
+            width: 0px;
         }
     </style>
-    """, unsafe_allow_html=True)
-
-set_bg()
-
-
+    """,
+    unsafe_allow_html=True
+)
 
 # ---------------------------- LOAD MODEL ----------------------------
 model = tf.keras.models.load_model("diabetes_ann_model.h5")
 scaler = joblib.load("scaler.pkl")
-
-# ---------------------------- LOAD DATA ----------------------------
-@st.cache_data
-def load_data():
-    return pd.read_csv("diabetes1.csv")
-
-df = load_data()
 
 # ---------------------------- SIDEBAR ----------------------------
 st.sidebar.title("📌 Navigation")
 page = st.sidebar.radio("Go to:", ["🏠 Home", "🔮 Prediction", "ℹ About"])
 
 st.sidebar.markdown("---")
-st.sidebar.write("Created by **Banu Prakash - Sai Venkat**")
+st.sidebar.write("Created by **Banu Prakash – Sai Venkat**")
 
 
 # ============================ HOME PAGE =============================
@@ -95,8 +72,10 @@ if page == "🏠 Home":
     st.title("🩺 Diabetes Prediction App")
 
     st.write("""
-    Welcome to the **Diabetes Prediction App**.  
-    This app uses a trained **Artificial Neural Network (ANN)** model to predict diabetes based on health and lifestyle data.
+    Welcome to the **Diabetes Prediction App**.
+
+    This application uses a trained **Artificial Neural Network (ANN)**  
+    to predict diabetes based on health and lifestyle data.
     """)
 
     st.image("https://cdn-icons-png.flaticon.com/512/2966/2966481.png", width=220)
@@ -106,7 +85,7 @@ if page == "🏠 Home":
 elif page == "🔮 Prediction":
     st.title("🔮 Diabetes Prediction")
 
-    st.write("Fill the details below:")
+    st.write("Fill in the following details:")
 
     col1, col2 = st.columns(2)
 
@@ -127,14 +106,13 @@ elif page == "🔮 Prediction":
         healthcare = st.selectbox("Healthcare Coverage", [0, 1])
         no_doctor_cost = st.selectbox("Can't Afford Doctor", [0, 1])
         gen_health = st.selectbox("General Health (1=Excellent, 5=Poor)", 1, 5, 3)
-        mental_health = st.selecctbox("Poor Mental Health Days", 0, 30, 5)
+        mental_health = st.selectbox("Poor Mental Health Days", 0, 30, 5)
         physical_health = st.selectbox("Poor Physical Health Days", 0, 30, 5)
         diff_walk = st.selectbox("Difficulty Walking", [0, 1])
         sex = st.selectbox("Sex (0=Female, 1=Male)", [0, 1])
         age = st.selectbox("Age Category (1–13)", 1, 13, 5)
         education = st.selectbox("Education (1–6)", 1, 6, 4)
         income = st.selectbox("Income (1–8)", 1, 8, 4)
-
 
     user_data = np.array([
         high_bp, high_chol, chol_check, bmi, smoker, stroke, heart_disease,
@@ -163,18 +141,15 @@ elif page == "ℹ About":
     - TensorFlow / Keras  
     - Scikit-learn  
     - Pandas, NumPy  
-    - Matplotlib, Seaborn  
 
     ### 🧠 Model  
-    - ANN (Artificial Neural Network)  
-    - Binary Classification  
-    - Accuracy: **85%**  
+    - Artificial Neural Network (ANN)  
+    - Accuracy: **85%**
 
-    ### 👨‍💻 Developer  
-    - Your Name  
+    ### 👨‍💻 Developers  
+    **Banu Prakash**  
+    **Sai Venkat**
 
-    **This app is for educational purposes only**.
+    This app is for educational use only.
     """)
-
-
 
