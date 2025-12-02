@@ -10,42 +10,46 @@ st.set_page_config(
     layout="wide"
 )
 
-# ---------------------------- CLEAN LIGHT GREY THEME ----------------------------
+# ---------------------------- DARK THEME ----------------------------
 st.markdown(
     """
     <style>
-        /* Light grey background */
+        /* Full dark background */
         .stApp {
-            background-color: #f2f2f2 !important;
+            background-color: #0d0d0d !important;
         }
 
-        /* Main content box */
+        /* Main content card */
         .block-container {
-            background: white;
+            background: #1a1a1a !important;
             padding: 2rem 3rem;
             border-radius: 16px;
-            box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.7);
             margin-top: 30px;
         }
 
         /* Headings */
         h1, h2, h3, h4 {
-            color: #222 !important;
+            color: #ffffff !important;
             font-weight: 700;
         }
 
-        /* Text */
+        /* Regular text */
         p, label, span {
-            color: #333 !important;
-            font-size: 1rem !important;
+            color: #dcdcdc !important;
         }
 
-        /* Sidebar */
+        /* Sidebar dark */
         section[data-testid="stSidebar"] {
-            background-color: #e8e8e8 !important;
+            background-color: #141414 !important;
         }
 
-        /* Remove scrollbar */
+        /* Sidebar text */
+        .css-1d391kg, .css-qri22k, .css-1kyxreq {
+            color: #ffffff !important;
+        }
+
+        /* Remove scrollbars */
         ::-webkit-scrollbar { width: 0px; }
     </style>
     """,
@@ -91,34 +95,33 @@ elif page == "🔮 Prediction":
     with col1:
         high_bp = st.selectbox("High Blood Pressure", [0, 1])
         high_chol = st.selectbox("High Cholesterol", [0, 1])
-        chol_check = st.selectbox("Cholesterol Check in Last 5 Years", [0, 1])
+        chol_check = st.selectbox("Cholesterol Check (5 yrs)", [0, 1])
         bmi = st.number_input("BMI", 10.0, 60.0, 25.0)
-        smoker = st.selectbox("Smoker (100+ cigarettes lifetime)", [0, 1])
-        stroke = st.selectbox("Ever Had a Stroke?", [0, 1])
-        heart_disease = st.selectbox("Heart Disease?", [0, 1])
+        smoker = st.selectbox("Smoker (100+ cigarettes)", [0, 1])
+        stroke = st.selectbox("Stroke", [0, 1])
+        heart_disease = st.selectbox("Heart Disease", [0, 1])
         phys_act = st.selectbox("Physical Activity", [0, 1])
         fruits = st.selectbox("Daily Fruit Intake", [0, 1])
 
     # ----------------------- RIGHT COLUMN -----------------------
     with col2:
         veggies = st.selectbox("Daily Vegetable Intake", [0, 1])
-        heavy_alcohol = st.selectbox("Heavy Alcohol Consumption", [0, 1])
-        healthcare = st.selectbox("Any Healthcare Coverage?", [0, 1])
-        no_doctor_cost = st.selectbox("Couldn't Afford Doctor Visit", [0, 1])
+        heavy_alcohol = st.selectbox("Heavy Alcohol Usage", [0, 1])
+        healthcare = st.selectbox("Healthcare Coverage", [0, 1])
+        no_doctor_cost = st.selectbox("Couldn't Afford Doctor", [0, 1])
 
-        gen_health = st.selectbox("General Health (1=Excellent, 5=Poor)", [1, 2, 3, 4, 5])
-
-        mental_health = st.selectbox("Poor Mental Health Days (0–30)", list(range(0, 31)))
-        physical_health = st.selectbox("Poor Physical Health Days (0–30)", list(range(0, 31)))
+        gen_health = st.selectbox("General Health (1=Excellent,5=Poor)", [1,2,3,4,5])
+        mental_health = st.selectbox("Poor Mental Health Days", list(range(0,31)))
+        physical_health = st.selectbox("Poor Physical Health Days", list(range(0,31)))
 
         diff_walk = st.selectbox("Difficulty Walking", [0, 1])
-        sex = st.selectbox("Sex (0=Female, 1=Male)", [0, 1])
+        sex = st.selectbox("Sex (0=Female,1=Male)", [0, 1])
 
         age = st.selectbox("Age Category (1–13)", list(range(1, 14)))
         education = st.selectbox("Education Level (1–6)", list(range(1, 7)))
         income = st.selectbox("Income Level (1–8)", list(range(1, 9)))
 
-    # ----------------------- MAKE INPUT ARRAY -----------------------
+    # ----------------------- PREPARE DATA -----------------------
     user_data = np.array([
         high_bp, high_chol, chol_check, bmi, smoker, stroke, heart_disease,
         phys_act, fruits, veggies, heavy_alcohol, healthcare, no_doctor_cost,
@@ -126,7 +129,7 @@ elif page == "🔮 Prediction":
         education, income
     ]).reshape(1, -1)
 
-    # ----------------------- PREDICT BUTTON -----------------------
+    # ----------------------- PREDICT -----------------------
     if st.button("Predict"):
         scaled = scaler.transform(user_data)
         pred = (model.predict(scaled) > 0.5).astype(int)[0][0]
@@ -143,20 +146,20 @@ elif page == "ℹ About":
     st.title("ℹ About This Project")
 
     st.write("""
-    ### 🔧 Technologies Used  
+    ### 🔧 Technologies
     - Streamlit  
     - TensorFlow / Keras  
     - Scikit-learn  
-    - Pandas & NumPy  
+    - Pandas  
+    - NumPy  
 
     ### 🧠 Model  
     - Artificial Neural Network (ANN)  
-    - Binary Classification  
     - Accuracy: **85%**
 
     ### 👨‍💻 Developers  
-    - **Banu Prakash**  
-    - **Sai Venkat**
+    **Banu Prakash**  
+    **Sai Venkat**
 
-    This app is created for educational & learning purposes.
+    This app is created for educational purposes.
     """)
