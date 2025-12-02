@@ -15,41 +15,47 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-        /* Light grey background */
+        /* Dark background */
         .stApp {
-            background-color: #f2f2f2 !important;
+            background-color: #0e0e0e !important;
         }
 
-        /* Main content box */
+        /* Main content card */
         .block-container {
-            background: white;
+            background: #1c1c1c !important;
             padding: 2rem 3rem;
             border-radius: 16px;
-            box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0px 4px 15px rgba(255,255,255,0.06);
             margin-top: 30px;
         }
 
         /* Headings */
         h1, h2, h3, h4 {
-            color: #222 !important;
-            font-weight: 700;
+            color: #ffffff !important;
         }
 
-        /* Labels & Text */
-        label, p, span {
-            color: #333 !important;
-            font-size: 1rem !important;
+        /* Normal text */
+        p, label, span {
+            color: #dcdcdc !important;
         }
 
-        /* Sidebar styling */
+        /* Sidebar */
         section[data-testid="stSidebar"] {
-            background-color: #e8e8e8 !important;
+            background-color: #1a1a1a !important;
         }
 
-        /* Remove ugly scrollbar */
-        ::-webkit-scrollbar {
-            width: 0px;
+        /* Sidebar text */
+        .css-1d391kg, .css-qri22k {
+            color: #ffffff !important;
         }
+
+        /* Inputs */
+        .stSelectbox, .stNumberInput, .stSlider {
+            color: white !important;
+        }
+
+        /* Remove scrollbars */
+        ::-webkit-scrollbar { width: 0px; }
     </style>
     """,
     unsafe_allow_html=True
@@ -154,5 +160,6 @@ elif page == "ℹ About":
 
     This app is for educational use only.
     """)
+
 
 
