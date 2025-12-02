@@ -7,32 +7,57 @@ import tensorflow as tf
 import joblib
 
 # ---------------------------- PAGE CONFIG ----------------------------
-st.set_page_config(page_title="Diabetes Prediction App", page_icon="🩺", layout="wide")
+st.set_page_config(
+    page_title="Diabetes Prediction App",
+    page_icon="🩺",
+    layout="wide"
+)
 
-# ---------------------------- BACKGROUND IMAGE ----------------------------
-def add_bg_image():
-    bg_url = "https://images.unsplash.com/photo-1581092334607-1e7e53b60a8b"  # lab image
-    st.markdown(f"""
+# ---------------------------- LIGHT WATERMARK BACKGROUND ----------------------------
+def set_bg():
+    st.markdown("""
         <style>
-        .stApp {{
-            background: url("{bg_url}");
+        .stApp {
+            background-image: url("https://images.unsplash.com/photo-1581091012184-5c7b2baf8bff");
             background-size: cover;
-            background-position: center;
-        }}
-        .block-container {{
-            background-color: rgba(255, 255, 255, 0.85);
-            padding: 2rem;
-            border-radius: 20px;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            opacity: 1;
+        }
+
+        /* Create a soft white overlay to lighten the image */
+        .stApp::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.75); /* MAIN LIGHT WATERMARK EFFECT */
+            backdrop-filter: blur(1px);
+            z-index: -1;
+        }
+
+        /* Main content container styling */
+        .block-container {
+            background: rgba(255, 255, 255, 0.88);
+            padding: 2rem 3rem;
+            border-radius: 15px;
             margin-top: 30px;
-        }}
+            box-shadow: 0px 4px 20px rgba(0,0,0,0.1);
+        }
+
         /* Remove scrollbars */
-        html, body, [class*="css"] {{
+        ::-webkit-scrollbar {
+            width: 0px;
+        }
+        html, body {
             overflow: hidden !important;
-        }}
+        }
         </style>
     """, unsafe_allow_html=True)
 
-add_bg_image()
+set_bg()
 
 # ---------------------------- LOAD MODEL ----------------------------
 model = tf.keras.models.load_model("diabetes_ann_model.h5")
@@ -41,15 +66,17 @@ scaler = joblib.load("scaler.pkl")
 # ---------------------------- LOAD DATA ----------------------------
 @st.cache_data
 def load_data():
-    return pd.read_csv("diabetes1.csv")
+    return pd.read_csv("data.csv")
 
 df = load_data()
 
 # ---------------------------- SIDEBAR ----------------------------
 st.sidebar.title("📌 Navigation")
-page = st.sidebar.radio("Go to:", ["🏠 Home", "📊 EDA", "🔮 Prediction", "ℹ About"])
+page = st.sidebar.radio("Go to:", ["🏠 Home", "🔮 Prediction", "ℹ About"])
+
 st.sidebar.markdown("---")
-st.sidebar.write("Created by **Your Name**")
+st.sidebar.write("Created by **Banu Prakash - Sai Venkat**")
+
 
 # ============================ HOME PAGE =============================
 if page == "🏠 Home":
@@ -57,45 +84,17 @@ if page == "🏠 Home":
 
     st.write("""
     Welcome to the **Diabetes Prediction App**.  
-    This app uses a trained **ANN model** to predict diabetes based on health data.
+    This app uses a trained **Artificial Neural Network (ANN)** model to predict diabetes based on health and lifestyle data.
     """)
 
-    st.image("https://cdn-icons-png.flaticon.com/512/2966/2966481.png", width=200)
+    st.image("https://cdn-icons-png.flaticon.com/512/2966/2966481.png", width=220)
 
-# ============================ EDA PAGE =============================
-elif page == "📊 EDA":
-    st.title("📊 Exploratory Data Analysis (EDA)")
-
-    if st.checkbox("Show Dataset"):
-        st.dataframe(df)
-
-    st.subheader("🔹 Class Distribution")
-    fig, ax = plt.subplots()
-    sns.countplot(df["diabetes"], ax=ax)
-    st.pyplot(fig)
-
-    st.subheader("🔹 BMI Distribution by Diabetes Status")
-    fig, ax = plt.subplots()
-    sns.kdeplot(data=df, x="bmi", hue="diabetes", fill=True, ax=ax)
-    st.pyplot(fig)
-
-    st.subheader("🔹 Age Category Distribution")
-    fig, ax = plt.subplots()
-    sns.countplot(x="age", hue="diabetes", data=df, ax=ax)
-    st.pyplot(fig)
-
-    st.subheader("🔹 Correlation Heatmap")
-    fig, ax = plt.subplots(figsize=(10, 6))
-    sns.heatmap(df.corr(), cmap="coolwarm", ax=ax)
-    st.pyplot(fig)
-
-    st.success("EDA Completed ✔")
 
 # ============================ PREDICTION PAGE =============================
 elif page == "🔮 Prediction":
     st.title("🔮 Diabetes Prediction")
 
-    st.write("Enter your health details:")
+    st.write("Fill the details below:")
 
     col1, col2 = st.columns(2)
 
@@ -115,14 +114,15 @@ elif page == "🔮 Prediction":
         heavy_alcohol = st.selectbox("Heavy Alcohol", [0, 1])
         healthcare = st.selectbox("Healthcare Coverage", [0, 1])
         no_doctor_cost = st.selectbox("Can't Afford Doctor", [0, 1])
-        gen_health = st.slider("General Health (1=Excellent, 5=Poor)", 1, 5, 3)
-        mental_health = st.slider("Poor Mental Health Days", 0, 30, 5)
-        physical_health = st.slider("Poor Physical Health Days", 0, 30, 5)
+        gen_health = st.selectbox("General Health (1=Excellent, 5=Poor)", 1, 5, 3)
+        mental_health = st.selecctbox("Poor Mental Health Days", 0, 30, 5)
+        physical_health = st.selectbox("Poor Physical Health Days", 0, 30, 5)
         diff_walk = st.selectbox("Difficulty Walking", [0, 1])
         sex = st.selectbox("Sex (0=Female, 1=Male)", [0, 1])
-        age = st.slider("Age Category (1–13)", 1, 13, 5)
-        education = st.slider("Education (1–6)", 1, 6, 4)
-        income = st.slider("Income (1–8)", 1, 8, 4)
+        age = st.selectbox("Age Category (1–13)", 1, 13, 5)
+        education = st.selectbox("Education (1–6)", 1, 6, 4)
+        income = st.selectbox("Income (1–8)", 1, 8, 4)
+
 
     user_data = np.array([
         high_bp, high_chol, chol_check, bmi, smoker, stroke, heart_disease,
@@ -140,12 +140,13 @@ elif page == "🔮 Prediction":
         else:
             st.success("✅ **Prediction: No Diabetes**")
 
+
 # ============================ ABOUT PAGE =============================
 elif page == "ℹ About":
-    st.title("ℹ About this Project")
+    st.title("ℹ About This Project")
 
     st.write("""
-    ### 🔧 Technologies  
+    ### 🔧 Technologies Used  
     - Streamlit  
     - TensorFlow / Keras  
     - Scikit-learn  
@@ -154,11 +155,11 @@ elif page == "ℹ About":
 
     ### 🧠 Model  
     - ANN (Artificial Neural Network)  
+    - Binary Classification  
     - Accuracy: **85%**  
 
     ### 👨‍💻 Developer  
     - Your Name  
 
-    This app is for **educational purposes only**.
+    **This app is for educational purposes only**.
     """)
-
